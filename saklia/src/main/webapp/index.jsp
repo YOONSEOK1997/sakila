@@ -7,5 +7,9 @@
 </head>
 <body>
 	<h1> Index</h1>
+	
+	<ol>
+		<li><a href="d0325/rentalList.jsp"> 대여목록</a></li>
+	</ol>
 </body>
 </html>
