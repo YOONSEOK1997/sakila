@@ -23,29 +23,25 @@ int startRow = (currentPage - 1) * rowPerPage;
 //검색값 설정
 
 
-String searchStoreId = request.getParameter("storeId") != null ? request.getParameter("storeId") : "";
+String searchFilmId = request.getParameter("storeId") != null ? request.getParameter("storeId") : "";
 String searchWord = request.getParameter("searchWord") != null ? request.getParameter("searchWord") : "";
 
-String countSql = "SELECT COUNT(*) " +
-"FROM rental r " +
-"INNER JOIN inventory i ON r.inventory_id = i.inventory_id " +
-"INNER JOIN film f ON i.film_id = f.film_id " +
-"INNER JOIN customer c ON r.customer_id = c.customer_id " +
-"INNER JOIN store s ON i.store_id = s.store_id ";
+String countSql = "SELECT COUNT(*) FROM film f "+
+"JOIN "+
+"film_actor fa ON f.film_id = fa.film_id "+
+"JOIN "+
+"actor a ON fa.actor_id = a.actor_id";
 
-//검색어가 있을 경우
-if (!searchStoreId.equals("") && !searchStoreId.equals("0")) {
-    countSql += " WHERE s.store_id = ? ";
-}
+
 if (!searchWord.equals("")) {
-    countSql += " AND f.title LIKE ? ";
+    countSql += " WHERE f.title LIKE ? ";
 }
 
 stmt = conn.prepareStatement(countSql);
 
 int paramIndex = 1;
-if (!searchStoreId.equals("") && !searchStoreId.equals("0")) {
-    stmt.setInt(paramIndex++, Integer.parseInt(searchStoreId));
+if (!searchFilmId.equals("") && !searchFilmId.equals("0")) {
+    stmt.setInt(paramIndex++, Integer.parseInt(searchFilmId));
 }
 if (!searchWord.equals("")) {
     stmt.setString(paramIndex++, "%" + searchWord + "%");
@@ -61,33 +57,32 @@ int lastPage = (totalCount + rowPerPage - 1) / rowPerPage; // 전체 페이지 �
 // 검색된 데이터 조회
 ArrayList<HashMap<String, Object>> list = new ArrayList<>();
 
-String sql = "SELECT " +
-"r.rental_id AS rentalId, " +
-"f.title AS filmTitle, " +
-"i.inventory_id AS inventoryId, " +
-"CONCAT(c.first_name, ' ', c.last_name, '(', c.customer_id, ')') AS customerName, " +
-"r.rental_date AS rentalDate, " +
-"r.return_date AS returnDate " +
-"FROM rental r " +
-"INNER JOIN inventory i ON r.inventory_id = i.inventory_id " +
-"INNER JOIN film f ON i.film_id = f.film_id " +
-"INNER JOIN customer c ON r.customer_id = c.customer_id " +
-"INNER JOIN store s ON i.store_id = s.store_id ";
+String sql = "SELECT "+
+"f.film_id AS filmId, "+
+"f.title AS title, "+
+"f.description AS description, "+
+"f.release_year AS releaseYear, "+
+"f.rental_rate AS rentalRate, "+
+" CONCAT(a.first_name, ' ', a.last_name) AS actorName "+
+"FROM "+
+"film f "+
+"INNER JOIN "+
+"film_actor fa ON f.film_id = fa.film_id "+
+"INNER JOIN "+
+"actor a ON fa.actor_id = a.actor_id";
 
-//검색어가 있을 경우
-if (!searchStoreId.equals("") && !searchStoreId.equals("0")) {
-    sql += " WHERE s.store_id = ? ";
-}
+
+//검색어가 있을 경우 
 if (!searchWord.equals("")) {
-    sql += " AND f.title LIKE ? ";
+    sql += " WHERE f.title LIKE ? ";
 }
 
-sql += " ORDER BY returnDate DESC LIMIT ?, ?";
+sql += " ORDER BY filmId DESC LIMIT ?, ?";
 
 stmt = conn.prepareStatement(sql);
 paramIndex = 1;
-if (!searchStoreId.equals("") && !searchStoreId.equals("0")) {
-    stmt.setInt(paramIndex++, Integer.parseInt(searchStoreId));
+if (!searchFilmId.equals("") && !searchFilmId.equals("0")) {
+    stmt.setInt(paramIndex++, Integer.parseInt(searchFilmId));
 }
 //검색어가 있을 경우 값 세팅
 if (!searchWord.equals("")) {
@@ -100,12 +95,12 @@ rs = stmt.executeQuery();
 
 while (rs.next()) {
     HashMap<String, Object> map = new HashMap<>();
-    map.put("rentalId", rs.getObject("rentalId"));
-    map.put("filmTitle", rs.getObject("filmTitle"));
-    map.put("inventoryId", rs.getObject("inventoryId"));
-    map.put("customerName", rs.getObject("customerName"));
-    map.put("rentalDate", rs.getObject("rentalDate"));
-    map.put("returnDate", rs.getObject("returnDate"));    
+    map.put("filmId", rs.getObject("filmId"));
+    map.put("title", rs.getObject("title"));
+    map.put("description", rs.getObject("description"));
+    map.put("releaseYear", rs.getObject("releaseYear"));
+    map.put("rentalRate", rs.getObject("rentalRate"));
+    map.put("actorName", rs.getObject("actorName"));    
     list.add(map);
 }
 %>
@@ -119,14 +114,14 @@ while (rs.next()) {
 body {
     margin: 0;
     padding: 5px;
-    width: 60%;
+    width: 80%;
     text-align: center;
 }
 h1{
-	color : #1ec800;
+	color : black;
 }
 #table {
-    width: 80%;
+    width: 100%;
     margin: 20px auto;
     border: 1px solid black;
     border-radius: 10px;
@@ -197,19 +192,10 @@ h1{
 </style>
 </head>
 <body>
-    <h1>Rental List</h1>
+    <h1>film List</h1>
     
-    <form class="search-form" action="rentalList.jsp">
-        <select name="storeId" id="selBox" > 
-            <option value="0" <%= searchStoreId.equals("0") ? "selected" : "" %>>전체</option>
-            <option value="1" <%= searchStoreId.equals("1") ? "selected" : "" %>>1지점</option>
-            <option value="2" <%= searchStoreId.equals("2") ? "selected" : "" %>>2지점</option>
-        </select>
-       
-        <button type="submit">검색</button>
-    </form>
-    
-    <form class="search-form" action="rentalList.jsp">
+
+    <form class="search-form" action="actorList.jsp">
         <input type="text" name="searchWord" value="<%= searchWord %>" placeholder="영화 제목 검색"
         >
         <button type="submit">검색</button>
@@ -217,43 +203,43 @@ h1{
 
     <table id="table">
         <tr>
-            <th>Rental ID</th>
-            <th>Film Title</th>
-            <th>Inventory ID</th>
-            <th>Customer Name</th>
-            <th>Rental Date</th>
-            <th>Return Date</th>
+            <th>영화ID</th>
+            <th>제목</th>
+            <th>줄거리</th>
+            <th>개봉년도</th>
+            <th>대여요금</th>
+            <th>주연</th>
         </tr>
         <% for (HashMap<String, Object> map : list) { %>
-        <tr>
-            <td><%= map.get("rentalId") %></td>
-            <td><%= map.get("filmTitle") %></td>
-            <td><%= map.get("inventoryId") %></td>
-            <td><%= map.get("customerName") %></td>
-            <td><%= map.get("rentalDate") %></td>
-            <td><%= map.get("returnDate") %></td>
-        </tr>
+       <tr onclick="location.href='filmOne.jsp?filmId=<%= map.get("filmId") %>'" style="cursor: pointer;">
+        <td><%= map.get("filmId") %></td>
+        <td><%= map.get("title") %></td>
+        <td><%= map.get("description") %></td>
+        <td><%= map.get("releaseYear") %></td>
+        <td><%= map.get("rentalRate") %></td>
+        <td><%= map.get("actorName") %></td>
+    </tr>
         <% } %>
     </table>
 
    <!-- 페이징 -->
     <div id="page">
         <% if (currentPage > 1) { %>
-            <a href="rentalList.jsp?storeId=<%= searchStoreId %>&searchWord=<%= searchWord %>&currentPage=1">처음</a>
+            <a href="actorList.jsp?searchWord=<%= searchWord %>&currentPage=1">처음</a>
             <% if (currentPage > 10) { %>
-                <a href="rentalList.jsp?storeId=<%= searchStoreId %>&searchWord=<%= searchWord %>&currentPage=<%= currentPage - 10 %>">이전 (-10)</a>
+                <a href="actorList.jsp?searchWord=<%= searchWord %>&currentPage=<%= currentPage - 10 %>">이전 (-10)</a>
             <% } %>
         <% } %>
 
         <% for (int i = Math.max(1, currentPage - 4); i <= Math.min(lastPage, currentPage + 5); i++) { %>
-            <a href="rentalList.jsp?storeId=<%= searchStoreId %>&searchWord=<%= searchWord %>&currentPage=<%= i %>">
+            <a href="actorList.jsp?searchWord=<%= searchWord %>&currentPage=<%= i %>">
                 <%= (i == currentPage) ? "<b>" + i + "</b>" : i %>
             </a>
         <% } %>
 
         <% if (currentPage < lastPage) { %>
-            <a href="rentalList.jsp?storeId=<%= searchStoreId %>&searchWord=<%= searchWord %>&currentPage=<%= currentPage + 10 %>">다음 (+10)</a>
-            <a href="rentalList.jsp?storeId=<%= searchStoreId %>&searchWord=<%= searchWord %>&currentPage=<%= lastPage %>">마지막</a>
+            <a href="actorList.jsp?searchWord=<%= searchWord %>&currentPage=<%= currentPage + 10 %>">다음 (+10)</a>
+            <a href="actorList.jsp?searchWord=<%= searchWord %>&currentPage=<%= lastPage %>">마지막</a>
         <% } %>
     </div>
 </body>
