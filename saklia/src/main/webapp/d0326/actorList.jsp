@@ -159,6 +159,11 @@ while (rs.next()) {
         <input type="text" name="searchWord" value="<%= searchActorName %>" placeholder="배우 이름 검색">
         <button type="submit">검색</button>
     </form>
+     <a href="http://localhost/sakila/d0326/filmList.jsp">
+        <button style="padding: 10px 20px; border-radius: 20px; background-color: #1ec800; color: white; font-size: 16px; border: none; cursor: pointer;">
+            영화목록
+        </button>
+    </a>
 
     <table id="table">
         <tr>
@@ -172,8 +177,11 @@ while (rs.next()) {
         </tr>
         <% } %>
     </table>
-
+	
     <!-- 페이징 -->
+     <div style="text-align: center; margin-top: 20px;">
+ 
+</div>
     <div id="page">
         <% if (currentPage > 1) { %>
             <a href="actorList.jsp?searchWord=<%= searchActorName %>&currentPage=1">처음</a>
@@ -192,6 +200,8 @@ while (rs.next()) {
             <a href="actorList.jsp?searchWord=<%= searchActorName %>&currentPage=<%= currentPage + 10 %>">다음 (+10)</a>
             <a href="actorList.jsp?searchWord=<%= searchActorName %>&currentPage=<%= lastPage %>">마지막</a>
         <% } %>
+        
     </div>
+   
 </body>
 </html>
