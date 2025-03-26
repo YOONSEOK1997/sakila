@@ -20,31 +20,21 @@ if (request.getParameter("currentPage") != null) {
 int rowPerPage = 5; // 한 페이지당 출력할 개수
 int startRow = (currentPage - 1) * rowPerPage;
 
-//검색값 설정
+// 검색값 설정
+String searchActorName = request.getParameter("searchWord") != null ? request.getParameter("searchWord") : "";
 
+String countSql = "SELECT COUNT(DISTINCT a.actor_id) FROM actor a " +
+                  "JOIN film_actor fa ON a.actor_id = fa.actor_id " +
+                  "JOIN film f ON fa.film_id = f.film_id";
 
-String searchFilmId = request.getParameter("storeId") != null ? request.getParameter("storeId") : "";
-String searchWord = request.getParameter("searchWord") != null ? request.getParameter("searchWord") : "";
-
-String countSql = "SELECT COUNT(*) FROM film f "+
-"JOIN "+
-"film_actor fa ON f.film_id = fa.film_id "+
-"JOIN "+
-"actor a ON fa.actor_id = a.actor_id";
-
-
-if (!searchWord.equals("")) {
-    countSql += " WHERE f.title LIKE ? ";
+if (!searchActorName.equals("")) {
+    countSql += " WHERE CONCAT(a.first_name, ' ', a.last_name) LIKE ? ";
 }
 
 stmt = conn.prepareStatement(countSql);
-
 int paramIndex = 1;
-if (!searchFilmId.equals("") && !searchFilmId.equals("0")) {
-    stmt.setInt(paramIndex++, Integer.parseInt(searchFilmId));
-}
-if (!searchWord.equals("")) {
-    stmt.setString(paramIndex++, "%" + searchWord + "%");
+if (!searchActorName.equals("")) {
+    stmt.setString(paramIndex++, "%" + searchActorName + "%");
 }
 
 rs = stmt.executeQuery();
@@ -57,36 +47,21 @@ int lastPage = (totalCount + rowPerPage - 1) / rowPerPage; // 전체 페이지 �
 // 검색된 데이터 조회
 ArrayList<HashMap<String, Object>> list = new ArrayList<>();
 
-String sql = "SELECT "+
-"f.film_id AS filmId, "+
-"f.title AS title, "+
-"f.description AS description, "+
-"f.release_year AS releaseYear, "+
-"f.rental_rate AS rentalRate, "+
-" CONCAT(a.first_name, ' ', a.last_name) AS actorName "+
-"FROM "+
-"film f "+
-"INNER JOIN "+
-"film_actor fa ON f.film_id = fa.film_id "+
-"INNER JOIN "+
-"actor a ON fa.actor_id = a.actor_id";
+String sql = "SELECT DISTINCT CONCAT(a.first_name, ' ', a.last_name) AS actorName, GROUP_CONCAT(f.title) AS filmTitle " +
+             "FROM actor a " +
+             "INNER JOIN film_actor fa ON a.actor_id = fa.actor_id " +
+             "INNER JOIN film f ON fa.film_id = f.film_id ";
 
-
-//검색어가 있을 경우 
-if (!searchWord.equals("")) {
-    sql += " WHERE f.title LIKE ? ";
+if (!searchActorName.equals("")) {
+    sql += " WHERE CONCAT(a.first_name, ' ', a.last_name) LIKE ? ";  
 }
 
-sql += " ORDER BY filmId DESC LIMIT ?, ?";
+sql += " GROUP BY a.actor_id ORDER BY actorName LIMIT ?, ?"; // 페이징 처리
 
 stmt = conn.prepareStatement(sql);
 paramIndex = 1;
-if (!searchFilmId.equals("") && !searchFilmId.equals("0")) {
-    stmt.setInt(paramIndex++, Integer.parseInt(searchFilmId));
-}
-//검색어가 있을 경우 값 세팅
-if (!searchWord.equals("")) {
-    stmt.setString(paramIndex++, "%" + searchWord + "%");
+if (!searchActorName.equals("")) {
+    stmt.setString(paramIndex++, "%" + searchActorName + "%"); 
 }
 stmt.setInt(paramIndex++, startRow);
 stmt.setInt(paramIndex, rowPerPage);
@@ -95,12 +70,8 @@ rs = stmt.executeQuery();
 
 while (rs.next()) {
     HashMap<String, Object> map = new HashMap<>();
-    map.put("filmId", rs.getObject("filmId"));
-    map.put("title", rs.getObject("title"));
-    map.put("description", rs.getObject("description"));
-    map.put("releaseYear", rs.getObject("releaseYear"));
-    map.put("rentalRate", rs.getObject("rentalRate"));
-    map.put("actorName", rs.getObject("actorName"));    
+    map.put("actorName", rs.getObject("actorName"));
+    map.put("filmTitle", rs.getObject("filmTitle"));
     list.add(map);
 }
 %>
@@ -109,137 +80,117 @@ while (rs.next()) {
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Rental List</title>
+<title>Actor List</title>
 <style>
-body {
-    margin: 0;
-    padding: 5px;
-    width: 80%;
-    text-align: center;
-}
-h1{
-	color : black;
-}
-#table {
-    width: 100%;
-    margin: 20px auto;
-    border: 1px solid black;
-    border-radius: 10px;
-}
-#table th, #table td {
-    border: 1px solid black;
-    padding: 10px;
-    text-align: center;
-}
-#table tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-#page {
-    margin-top: 20px;
-    text-align: center;
-}
-#page a {
-    display: inline-block;
-    padding: 4px 8px;
-    margin: 0 5px;
-    text-decoration: none;
-    color: black;
-    border: 1px solid black;
-    border-radius: 15px;
-}
-#currentPage a{
-    font-weight: bold;
-}
-
-/* Naver style search bar */
-
-#selBox{
-	width : 100px;
-	height: 37px;
-    border-radius: 20px;
-    border: 1px solid #1ec800;
-	text-align: center;
-}
-.search-form {
-    margin: 20px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.search-form input[type="text"] {
-    width: 400px;
-    height: 35px;
-    padding: 0 10px;
-    border-radius: 20px;
-    border: 1px solid #1ec800;
-    font-size: 14px;
-}
-.search-form button {
-    height: 35px;
-    margin-left: 10px;
-    padding: 0 20px;
-    border-radius: 20px;
-    border: none;
-    background-color: #1ec800;
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-}
-.search-form button:hover {
-    background-color: #16b600;
-}
-
+    body {
+        margin: 0;
+        padding: 5px;
+        width: 100%;
+        text-align: center;
+    }
+    h1{
+        color : black;
+    }
+    #table {
+        width: 80%;
+        margin: 20px auto;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+    #table th, #table td {
+        border: 1px solid black;
+        padding: 10px;
+        text-align: center;
+    }
+    #table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    #page {
+        margin-top: 20px;
+        text-align: center;
+    }
+    #page a {
+        display: inline-block;
+        padding: 4px 8px;
+        margin: 0 5px;
+        text-decoration: none;
+        color: black;
+        border: 1px solid black;
+        border-radius: 15px;
+    }
+    #currentPage a {
+        font-weight: bold;
+    }
+    .search-form {
+        margin: 20px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .search-form input[type="text"] {
+        width: 400px;
+        height: 35px;
+        padding: 0 10px;
+        border-radius: 20px;
+        border: 1px solid #1ec800;
+        font-size: 14px;
+    }
+    .search-form button {
+        height: 35px;
+        margin-left: 10px;
+        padding: 0 20px;
+        border-radius: 20px;
+        border: none;
+        background-color: #1ec800;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .search-form button:hover {
+        background-color: #16b600;
+    }
 </style>
 </head>
 <body>
-    <h1>film List</h1>
-    
+    <h1>Actor List</h1>
 
+    <!-- 검색 폼 추가 -->
     <form class="search-form" action="actorList.jsp">
-        <input type="text" name="searchWord" value="<%= searchWord %>" placeholder="영화 제목 검색"
-        >
+        <input type="text" name="searchWord" value="<%= searchActorName %>" placeholder="배우 이름 검색">
         <button type="submit">검색</button>
     </form>
 
     <table id="table">
         <tr>
-            <th>영화ID</th>
-            <th>제목</th>
-            <th>줄거리</th>
-            <th>개봉년도</th>
-            <th>대여요금</th>
-            <th>주연</th>
+            <th>배우 이름</th>
+            <th>대표작</th>
         </tr>
         <% for (HashMap<String, Object> map : list) { %>
-       <tr onclick="location.href='filmOne.jsp?filmId=<%= map.get("filmId") %>'" style="cursor: pointer;">
-        <td><%= map.get("filmId") %></td>
-        <td><%= map.get("title") %></td>
-        <td><%= map.get("description") %></td>
-        <td><%= map.get("releaseYear") %></td>
-        <td><%= map.get("rentalRate") %></td>
-        <td><%= map.get("actorName") %></td>
-    </tr>
+        <tr>
+            <td><%= map.get("actorName") %></td>
+            <td><%= map.get("filmTitle") %></td>
+        </tr>
         <% } %>
     </table>
 
-   <!-- 페이징 -->
+    <!-- 페이징 -->
     <div id="page">
         <% if (currentPage > 1) { %>
-            <a href="actorList.jsp?searchWord=<%= searchWord %>&currentPage=1">처음</a>
+            <a href="actorList.jsp?searchWord=<%= searchActorName %>&currentPage=1">처음</a>
             <% if (currentPage > 10) { %>
-                <a href="actorList.jsp?searchWord=<%= searchWord %>&currentPage=<%= currentPage - 10 %>">이전 (-10)</a>
+                <a href="actorList.jsp?searchWord=<%= searchActorName %>&currentPage=<%= currentPage - 10 %>">이전 (-10)</a>
             <% } %>
         <% } %>
 
         <% for (int i = Math.max(1, currentPage - 4); i <= Math.min(lastPage, currentPage + 5); i++) { %>
-            <a href="actorList.jsp?searchWord=<%= searchWord %>&currentPage=<%= i %>">
+            <a href="actorList.jsp?searchWord=<%= searchActorName %>&currentPage=<%= i %>">
                 <%= (i == currentPage) ? "<b>" + i + "</b>" : i %>
             </a>
         <% } %>
 
         <% if (currentPage < lastPage) { %>
-            <a href="actorList.jsp?searchWord=<%= searchWord %>&currentPage=<%= currentPage + 10 %>">다음 (+10)</a>
-            <a href="actorList.jsp?searchWord=<%= searchWord %>&currentPage=<%= lastPage %>">마지막</a>
+            <a href="actorList.jsp?searchWord=<%= searchActorName %>&currentPage=<%= currentPage + 10 %>">다음 (+10)</a>
+            <a href="actorList.jsp?searchWord=<%= searchActorName %>&currentPage=<%= lastPage %>">마지막</a>
         <% } %>
     </div>
 </body>

@@ -111,86 +111,98 @@ while (rs.next()) {
 <meta charset="UTF-8">
 <title>Rental List</title>
 <style>
-body {
-    margin: 0;
-    padding: 5px;
-    width: 100%;
-    text-align: center;
-}
-h1{
-	color : black;
-}
-#table {
-    width: 100%;
-    height: 500px;
-    margin: 20px auto;
-    border: 1px solid black;
-    border-radius: 10px;
-}
-#table th, #table td {
-    border: 1px solid black;
-    padding: 10px;
-    text-align: center;
-}
-#table tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-#page {
-    margin-top: 20px;
-    text-align: center;
-}
-#page a {
-    display: inline-block;
-    padding: 4px 8px;
-    margin: 0 5px;
-    text-decoration: none;
-    color: black;
-    border: 1px solid black;
-    border-radius: 15px;
-}
-#currentPage a{
-    font-weight: bold;
-}
+    body {
+        margin: 0;
+        padding: 5px;
+        width: 100%;
+        text-align: center;
+    }
+    h1{
+        color : black;
+    }
+    #table {
+        width: %;
+        height: 500px;
+        margin: 20px auto;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+    #table th, #table td {
+        border: 1px solid black;
+        padding: 10px;
+        text-align: center;
+        word-wrap: break-word; 
+    }
+    #table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    #table td.description {
+        max-width: 300px; 
+        overflow: hidden;
+        text-overflow: ellipsis; 
+        white-space: nowrap;
+    }
+    #table td.actorName {
+        text-overflow: ellipsis; 
+        overflow: hidden;
+        text-overflow: ellipsis; 
+        white-space: nowrap;
+    }
+    #page {
+        margin-top: 20px;
+        text-align: center;
+    }
+    #page a {
+        display: inline-block;
+        padding: 4px 8px;
+        margin: 0 5px;
+        text-decoration: none;
+        color: black;
+        border: 1px solid black;
+        border-radius: 15px;
+    }
+    #currentPage a{
+        font-weight: bold;
+    }
 
-/* Naver style search bar */
-
-#selBox{
-	width : 100px;
-	height: 37px;
-    border-radius: 20px;
-    border: 1px solid #1ec800;
-	text-align: center;
-}
-.search-form {
-    margin: 20px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.search-form input[type="text"] {
-    width: 400px;
-    height: 35px;
-    padding: 0 10px;
-    border-radius: 20px;
-    border: 1px solid #1ec800;
-    font-size: 14px;
-}
-.search-form button {
-    height: 35px;
-    margin-left: 10px;
-    padding: 0 20px;
-    border-radius: 20px;
-    border: none;
-    background-color: #1ec800;
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-}
-.search-form button:hover {
-    background-color: #16b600;
-}
-
+  
+    #selBox{
+        width : 100px;
+        height: 37px;
+        border-radius: 20px;
+        border: 1px solid #1ec800;
+        text-align: center;
+    }
+    .search-form {
+        margin: 20px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .search-form input[type="text"] {
+        width: 400px;
+        height: 35px;
+        padding: 0 10px;
+        border-radius: 20px;
+        border: 1px solid #1ec800;
+        font-size: 14px;
+    }
+    .search-form button {
+        height: 35px;
+        margin-left: 10px;
+        padding: 0 20px;
+        border-radius: 20px;
+        border: none;
+        background-color: #1ec800;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .search-form button:hover {
+        background-color: #16b600;
+    }
 </style>
+
 </head>
 <body>
     <h1>film List</h1>
@@ -206,20 +218,20 @@ h1{
         <tr>
             <th>영화ID</th>
             <th>제목</th>
-            <th>줄거리</th>
+            <th>설명</th>
             <th>개봉년도</th>
             <th>대여요금</th>
             <th>주연</th>
         </tr>
         <% for (HashMap<String, Object> map : list) { %>
-       <tr onclick="location.href='filmOne.jsp?filmId=<%= map.get("filmId") %>'" style="cursor: pointer;">
-        <td><%= map.get("filmId") %></td>
-        <td><%= map.get("title") %></td>
-        <td><%= map.get("description") %></td>
-        <td><%= map.get("releaseYear") %></td>
-        <td><%= map.get("rentalRate") %></td>
-        <td><%= map.get("actorName") %></td>
-    </tr>
+      <tr onclick="location.href='filmOne.jsp?filmId=<%= map.get("filmId") %>'" style="cursor: pointer;">
+    <td><%= map.get("filmId") %></td>
+    <td><%= map.get("title") %></td>
+    <td class="description"><%= map.get("description") %></td> <!-- 줄거리에 클래스 추가 -->
+    <td><%= map.get("releaseYear") %></td>
+    <td><%= map.get("rentalRate") %></td>
+    <td class="actorName"><%= map.get("actorName") %></td>
+</tr>
         <% } %>
     </table>
 

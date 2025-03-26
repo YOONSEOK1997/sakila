@@ -16,7 +16,7 @@
                            "JOIN actor a ON fa.actor_id = a.actor_id " +
                            "WHERE fa.actor_id = ? " +
                            "ORDER BY f.title";
-
+	
     PreparedStatement stmt = conn.prepareStatement(actorMovieSql);
     stmt.setInt(1, Integer.parseInt(actorId));
     ResultSet rs = stmt.executeQuery();
@@ -35,68 +35,90 @@
 <head>
     <meta charset="UTF-8">
     <title>필모그레피</title>
+    
     <style>
         body {
             margin: 0;
             padding: 20px;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f7;
+            color: #333;
         }
         h1 {
-            color: black;
+            color: #333;
             text-align: center;
+            font-size: 36px;
+            margin-bottom: 30px;
+            font-weight: 600;
         }
         .container {
-            width: 60%;
+            width: 80%;
             margin: 0 auto;
             padding: 20px;
             border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
             position: relative;
+            overflow: hidden;
         }
-        .info {
-            text-align: left;
-            margin: 10px 0;
+        .actor-movies {
+            margin-top: 20px;
         }
-        .info span {
-            font-weight: bold;
+        .actor-movies h2 {
             color: #555;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .actor-movies ul {
+            list-style-type: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3열 그리드 */
+            gap: 20px; /* 항목 간 간격 */
+        }
+        .actor-movies li {
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .actor-movies li:hover {
+            transform: scale(1.05); /* hover 시 크기 확대 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .actor-movies li a {
+            color: black;
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+            text-align: center;
+        }
+        .actor-movies li a:hover {
+            text-decoration: underline;
         }
         .back-button {
             display: inline-block;
             margin-top: 20px;
             padding: 10px 20px;
             border: none;
-            background-color: black;
+            background-color: #333;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 30px;
+            font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
         .back-button:hover {
             background-color: #16b600;
         }
-        .actor-movies {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .actor-movies ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .actor-movies li {
-            padding: 5px 0;
-        }
-        li a{
-        text-decoration : none;
-        }
     </style>
 </head>
 <body>
-    <h1>필모그레피</h1>
+    <h1>filmographies</h1>
     <div class="container">
         <div class="actor-movies">
             <ul>
@@ -112,7 +134,7 @@
             </ul>
         </div>
 
-        <a class="back-button" href="actorList.jsp">목록</a>
+        <a class="back-button" href="actorList.jsp">목록으로 돌아가기</a>
     </div>
 </body>
 </html>

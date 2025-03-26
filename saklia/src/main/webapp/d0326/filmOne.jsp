@@ -41,7 +41,7 @@
 
     StringBuilder actorLinks = new StringBuilder();
     for (int i = 0; i < actorIdArray.length; i++) {
-        actorLinks.append("<span style =cursor:pointer;' onclick=\"location.href='actorOne.jsp?actorId=")
+        actorLinks.append("<span cursor:pointer;' onclick=\"location.href='actorOne.jsp?actorId=")
                   .append(actorIdArray[i].trim()).append("'\">")
                   .append(actorNameArray[i].trim()).append("</span>");
         if (i < actorIdArray.length - 1) {
@@ -59,25 +59,31 @@
     <style>
         body {
             margin: 0;
-            padding: 20px;
-            font-family: Arial, sans-serif;
+            padding: 0;
+            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
         }
         h1 {
-            color: black;
             text-align: center;
+            color: #fff;
+            background-color: #333;
+            padding: 20px;
+            margin: 0;
+            font-size: 36px;
         }
         .container {
-            width: 60%;
-            margin: 0 auto;
+            width: 80%;
+            margin: 50px auto;
             padding: 20px;
-            border: 1px solid #ddd;
+            background-color: #fff;
             border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
             position: relative;
         }
         .info {
-            text-align: left;
-            margin: 10px 0;
+            font-size: 18px;
+            margin: 15px 0;
+            color: #333;
         }
         .info span {
             font-weight: bold;
@@ -87,41 +93,65 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            width: 150px;
+            width: 250px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
         .poster {
             width: 100%;
             border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
         }
         .back-button {
             display: inline-block;
             margin-top: 20px;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
-            background-color: black;
+            background-color: #333;
             color: white;
             text-decoration: none;
             border-radius: 5px;
             cursor: pointer;
+            text-align: center;
         }
         .back-button:hover {
-            background-color: #16b600;
+            background-color: #555;
         }
         .actor-movies {
             margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 15px;
             background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
         }
         .actor-movies ul {
             list-style-type: none;
             padding: 0;
         }
         .actor-movies li {
-            padding: 5px 0;
+            font-size: 16px;
+            padding: 8px 0;
         }
+        .actor-movies a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .actor-movies a:hover {
+            text-decoration: underline;
+        }
+        .rating {
+            color: #ff9800;
+            font-weight: bold;
+        }
+        .actor-links span {
+    		color: #007BFF;
+   			cursor: pointer;
+   			transition: color 0.3s ease; /* 색상 변경을 부드럽게 처리 */
+}
+
+		.actor-links span:hover {
+   			color: #ff5722; /* 마우스를 올렸을 때 색상 변경 */
+   		    text-decoration: underline; /* 마우스를 올리면 밑줄 표시 */
+}
     </style>
 </head>
 <body>
@@ -138,10 +168,12 @@
         <div class="info"><span>개봉년도:</span> <%= film.get("releaseYear") %></div>
         <div class="info"><span>대여 요금:</span> $<%= film.get("rentalRate") %></div>
         <div class="info"><span>상영 시간:</span> <%= film.get("length") %>분</div>
-        <div class="info"><span>등급:</span> <%= film.get("rating") %></div>
-        <div class="info"><span>출연 배우:</span> <%= actorLinks.toString() %></div> 
+        <div class="info"><span>등급:</span> <%= film.get("rating") %> <span class="rating"></span></div>
+        <div class="info"><span>출연 배우:</span>  <div class="actor-links"> <%= actorLinks.toString() %> </div>
+</div>
 
-        
+
+       
 
         <a class="back-button" href="filmList.jsp">목록</a>
     </div>
