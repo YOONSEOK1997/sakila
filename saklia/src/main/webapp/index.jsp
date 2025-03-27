@@ -12,6 +12,7 @@
 		<li><a href="d0325/rentalList.jsp"> 대여목록</a></li>
 		<li><a href="d0326/filmList.jsp"> 필름목록</a></li>
 		<li><a href="d0326/actorList.jsp"> 배우목록</a></li>
+		<li><a href="d0327/inventoryList.jsp">물품목록</a>
 	</ol>
 </body>
 </html>
