@@ -1,13 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="java.sql.*"%>
+<%
+// 로그인 되었는지 확인
+Integer staffId = (Integer)(session.getAttribute("loginStaff"));
 
-
+if (staffId != null) { // 로그아웃 상태라면
+    response.sendRedirect("/sakila/loginForm.jsp");
+    return;
+}
+%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>비밀번호 변경</title>
+<title>LOGIN</title>
 <style>
     body {
         margin: 0;
@@ -76,21 +82,19 @@
 </head>
 <body>
     <div class="login-container">
-        <h1>비밀번호 변경</h1>
-        <form action="/sakila/updatePasswordAction.jsp">
+        <h1>WELCOME</h1>
+        <form action="/sakila/d0328/loginAction.jsp">
             <table>
-             	
                 <tr>
-                	
-                    <td><input type="password" name="password" placeholder="현재비밀번호"></td>
+                    <th>ID</th>
+                    <td><input type="number" name="staffId" placeholder="아이디를 입력해주세요"></td>
                 </tr>
                 <tr>
-                	<td><input type="password" name="newPassword" placeholder="새 비밀번호"></td>
-                <tr>
-               
+                    <th>PW</th>
+                    <td><input type="password" name="password" placeholder="바밀번호를 입력해주세요"></td>
+                </tr>
             </table>
-            <button type="submit" onclick= "location.href='/salika/index.jsp'">확인</button>
-         
+            <button type="submit">로그인</button>
         </form>
     </div>
 </body>

@@ -31,7 +31,9 @@
         int result = stmt.executeUpdate();
         
         if (result > 0) {
-            out.println("<p>비밀번호가 성공적으로 변경되었습니다!</p>");
+            System.out.println("비밀번호가 성공적으로 변경되었습니다! 로그인 페이지로 이동합니다");
+            session.invalidate();
+            response.sendRedirect("/sakila/index.jsp");
         } else {
             out.println("<p>비밀번호 변경에 실패했습니다. 현재 비밀번호를 확인하고 다시 시도해주세요.</p>");
         }

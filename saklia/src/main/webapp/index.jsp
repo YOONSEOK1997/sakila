@@ -5,7 +5,7 @@
 		
 		
 		if(staffId == null){
-			response.sendRedirect("/sakila/loginForm.jsp");
+			response.sendRedirect("/sakila/d0328/loginForm.jsp");
 			return;
 		}
 		if(application.getAttribute("loginStaff") == null){
@@ -23,8 +23,8 @@
 	<h1> Index</h1>
 	<div>
 	<%=staffId %>님 반갑습니다.
-	<a href="/sakila/logout.jsp">[로그아웃]</a>
-	<a href="/sakila/updatePasswordForm.jsp">비밀번호 변경</a>
+	<a href="/sakila/d0328/logout.jsp">[로그아웃]</a>
+	<a href="/sakila/d0328/updatePasswordForm.jsp">비밀번호 변경</a>
 	</div>
 	
 	<ol>
