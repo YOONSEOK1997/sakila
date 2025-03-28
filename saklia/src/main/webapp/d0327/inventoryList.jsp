@@ -93,7 +93,7 @@ String sql = "SELECT t1.inventory_id, t1.title, t2.isRental "+
 	}
 
 	//sql += " GROUP BY f.film_id, f.title, f.description, f.release_year, f.rental_rate "; 
-	sql += " ORDER BY inventory_id DESC LIMIT ?, ?"; // 페이징 처리
+	sql += " ORDER BY inventory_id ASC LIMIT ?, ?"; // 페이징 처리
 
 	stmt = conn.prepareStatement(sql);
 	paramIndex = 1;
@@ -106,6 +106,8 @@ String sql = "SELECT t1.inventory_id, t1.title, t2.isRental "+
 	stmt.setInt(paramIndex, rowPerPage);  // 페이지당 레코드 수
 
 	rs = stmt.executeQuery();
+	
+	
 
 
 while (rs.next()) {

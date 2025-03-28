@@ -1,0 +1,97 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="java.sql.*"%>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>비밀번호 변경</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .login-container {
+        background-color: white;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 320px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+    }
+
+    table {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        font-size: 16px;
+        color: #555;
+    }
+
+    input[type="number"], input[type="password"] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 4px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #1ec800;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>비밀번호 변경</h1>
+        <form action="/sakila/updatePasswordAction.jsp">
+            <table>
+             	
+                <tr>
+                	
+                    <td><input type="password" name="password" placeholder="현재비밀번호"></td>
+                </tr>
+                <tr>
+                	<td><input type="password" name="newPassword" placeholder="새 비밀번호"></td>
+                <tr>
+               
+            </table>
+            <button type="submit" onclick= "location.href='/salika/index.jsp'">확인</button>
+         
+        </form>
+    </div>
+</body>
+</html>
