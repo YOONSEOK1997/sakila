@@ -9,7 +9,7 @@
 
     Connection conn = null;
     PreparedStatement stmt = null;
-    String sql = "INSERT INTO rental (rental_date, inventory_id, customer_id, staff_id, return_date) VALUES (?, ?, ?, ?, NULL)";
+    String sql = "insert into rental (rental_date, inventory_id, customer_id, staff_id, return_date) VALUES (?, ?, ?, ?, NULL)";
     int result = 0;
 
    
@@ -31,4 +31,5 @@
         }
 
         
+ 
 %>

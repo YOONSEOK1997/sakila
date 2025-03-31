@@ -67,22 +67,22 @@
 					<td><%=rs.getString("email")%></td>
 					<td><%=rs.getInt("active")%></td>
 					<td>
-						<%
-							if(rs.getInt("active") == 0) {
-						%>	
-								<a href='/sakila/d0327/updateCustomerActive.jsp'>
-									휴면상태해지하기<!-- customer.active 0을 1로 변경 -->
-								</a>	
-						<%
-							} else {
-						%>
-								<a href='/sakila/d0327/insertRentalForm.jsp?customerId=<%=rs.getInt("customerId")%>&inventoryId=<%=inventoryId%>'>
-									선택
-								</a>
-						<%		
-							}
-						%>
-					</td>
+							<%
+								if (rs.getInt("active") == 0) {
+							%>
+									<a href='/sakila/d0327/updateCustomerActive.jsp?customerId=<%=rs.getInt("customerId")%>&active=<%=rs.getInt("active")%>'>
+										휴면상태해지하기 <!-- cutomser.active값을 0을 1로 변경 -->
+									</a>
+							<%
+								} else {
+							%>
+									<a href='/sakila/d0327/insertRentalForm.jsp?customerId=<%=rs.getInt("customerId")%>&inventoryId=<%=inventoryId%>'>
+										선택
+									</a>
+							<%
+								}
+							%>
+						</td>
 				</tr>
 		<%		
 			}
