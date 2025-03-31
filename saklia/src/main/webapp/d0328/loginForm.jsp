@@ -53,7 +53,7 @@ if (staffId != null) { // 로그아웃 상태라면
         color: #555;
     }
 
-    input[type="number"], input[type="password"] {
+    input[type="text"], input[type="password"] {
         width: 100%;
         padding: 8px;
         margin-top: 4px;
@@ -87,11 +87,11 @@ if (staffId != null) { // 로그아웃 상태라면
             <table>
                 <tr>
                     <th>ID</th>
-                    <td><input type="number" name="staffId" placeholder="아이디를 입력해주세요"></td>
+                    <td><input type="text" name="staffId" placeholder="아이디를 입력해주세요"></td>
                 </tr>
                 <tr>
                     <th>PW</th>
-                    <td><input type="password" name="password" placeholder="바밀번호를 입력해주세요"></td>
+                    <td><input type="password" name="password" placeholder="비밀번호를 입력해주세요"></td>
                 </tr>
             </table>
             <button type="submit">로그인</button>

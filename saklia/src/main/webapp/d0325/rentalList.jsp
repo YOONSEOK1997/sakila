@@ -82,7 +82,7 @@ if (!searchWord.equals("")) {
     sql += " AND f.title LIKE ? ";
 }
 
-sql += " ORDER BY returnDate DESC LIMIT ?, ?";
+sql += " ORDER BY rental_id DESC LIMIT ?, ?";
 
 stmt = conn.prepareStatement(sql);
 paramIndex = 1;

@@ -135,7 +135,7 @@ while (rs.next()) {
         color : black;
     }
     #table {
-        width: %;
+        width: 100 %;
         height: 500px;
         margin: 20px auto;
         border: 1px solid black;
@@ -230,7 +230,7 @@ while (rs.next()) {
             <th>재고현황</th> 
         </tr>
         <% for (HashMap<String, Object> map : list) { %>
-		<tr>
+        <tr onclick="location.href='/sakila/d0327/insertRentalForm.jsp?inventoryId=<%= map.get("inventoryId") %>'" style="cursor: pointer;">
 		    <td><%= map.get("inventoryId") %></td>
 		    <td><%= map.get("filmTitle") %></td>
 		    <td><%= map.get("isRental") %></td>	

@@ -6,7 +6,7 @@
         String password = request.getParameter("password");
         String newPassword = request.getParameter("newPassword");
         // staffId 파싱
-        Integer staffId = (Integer)(session.getAttribute("loginStaff"));
+        Integer staffId = (Integer)session.getAttribute("loginStaff");
         
       	System.out.println("password=" +password);
       	System.out.println("newPassword=" +newPassword);
