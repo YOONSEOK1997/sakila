@@ -28,82 +28,17 @@
 <head>
 <meta charset="UTF-8">
 <title></title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 20px;
-    }
-
-    h1 {
-        text-align: center;
-        font-size: 2em;
-        margin-bottom: 20px;
-        color: #333;
-    }
-
-    form {
-        margin: 0 auto;
-        width: 50%;
-        text-align: center;
-    }
-
-    input[type="text"] {
-        padding: 10px;
-        margin: 5px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-    }
-
-    button {
-        padding: 10px 20px;
-        background-color: #28a745;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-top: 10px;
-    }
-
-    button:hover {
-        background-color: #218838;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-
-    td {
-        padding: 12px;
-        border: 1px solid #ddd;
-        text-align: center;
-        background-color: #fff;
-    }
-
-    th {
-        background-color: #333;
-        color: white;
-        padding: 12px;
-        border: 1px solid #ddd;
-    }
-    #searchbar{
-    		 border-radius: 20px;
-    	    border: 1px solid #1ec800;
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="/sakila/css/sakila.css?after">
 </head>
 <body>
 	<h1>Insert Rental Inventory</h1>
 	<%
 		if(rs.next()) {
 	%>
-		<form action="/sakila/d0327/searchCustomIdList.jsp" method="post">
+		<form class="search-form" action="/sakila/d0327/searchCustomIdList.jsp" method="post">
 			<input type="hidden" name="inventoryId" value="<%=inventoryId%>">
 			<input type="text" name="searchName" id="serachbar">
-			<button type="submit">이름으로 customerId검색</button>
+			<button type="submit">검색</button>
 		</form>
 		<!-- 
 			insertRentalForm.jsp -> 이름검색 -> customerListByName.jsp -> insertRentalForm.jsp

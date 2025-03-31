@@ -22,30 +22,7 @@
 <head>
 <meta charset="UTF-8">
 <title></title>
-<style>
- #table {
-        width: %;
-        height: 500px;
-        margin: 20px auto;
-        border: 1px solid black;
-        border-radius: 10px;
-    }
-    #table th, #table td {
-        border: 1px solid black;
-        padding: 10px;
-        text-align: center;
-        word-wrap: break-word; /* 단어가 테이블을 벗어나지 않게 함 */
-    }
-    #table tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-    #table td.description {
-        max-width: 300px; /* 최대 너비 설정 */
-        overflow: hidden;
-        text-overflow: ellipsis; /* 넘치는 텍스트는 '...'으로 표시 */
-        white-space: nowrap; /* 텍스트가 줄바꿈 되지 않게 함 */
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="/sakila/css/sakila.css?after">
 </head>
 <body>
 	<table id="table">
