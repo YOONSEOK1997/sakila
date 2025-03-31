@@ -5,21 +5,20 @@
     Integer customerId = Integer.parseInt(request.getParameter("customerId"));
     Integer inventoryId = Integer.parseInt(request.getParameter("inventoryId"));
     Integer staffId = Integer.parseInt(request.getParameter("staffId"));
-    Timestamp rentalDate = new Timestamp(System.currentTimeMillis());
-
+    
     Connection conn = null;
     PreparedStatement stmt = null;
-    String sql = "insert into rental (rental_date, inventory_id, customer_id, staff_id, return_date) VALUES (?, ?, ?, ?, NULL)";
+    String sql = "insert into rental (rental_date, inventory_id, customer_id, staff_id, return_date) VALUES (now(), ?, ?, ?, NULL)";
     int result = 0;
 
    
         Class.forName("com.mysql.cj.jdbc.Driver");
         conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sakila", "root", "wkqk1234");
         stmt = conn.prepareStatement(sql);
-        stmt.setTimestamp(1, rentalDate);
-        stmt.setInt(2, inventoryId);
-        stmt.setInt(3, customerId);
-        stmt.setInt(4, staffId);
+   
+        stmt.setInt(1, inventoryId);
+        stmt.setInt(2, customerId);
+        stmt.setInt(3, staffId);
 
         result = stmt.executeUpdate();
 
