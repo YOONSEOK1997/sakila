@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%@ page import="java.sql.*" %>
+<%@ include file="/header.jsp" %>
 <%
 Class.forName("com.mysql.cj.jdbc.Driver");
 Connection conn = null;
@@ -17,7 +18,7 @@ if (request.getParameter("currentPage") != null) {
     currentPage = Integer.parseInt(request.getParameter("currentPage"));
 }
 
-int rowPerPage = 5; // 한 페이지당 출력할 개수
+int rowPerPage = 3; // 한 페이지당 출력할 개수
 int startRow = (currentPage - 1) * rowPerPage;
 
 //검색값 설정
@@ -110,98 +111,10 @@ while (rs.next()) {
 <head>
 <meta charset="UTF-8">
 <title>Rental List</title>
-<style>
-    body {
-        margin: 0;
-        padding: 5px;
-        width: 100%;
-        text-align: center;
-    }
-    h1{
-        color : black;
-    }
-    #table {
-        width: %;
-        height: 500px;
-        margin: 20px auto;
-        border: 1px solid black;
-        border-radius: 10px;
-    }
-    #table th, #table td {
-        border: 1px solid black;
-        padding: 10px;
-        text-align: center;
-        word-wrap: break-word; /* 단어가 테이블을 벗어나지 않게 함 */
-    }
-    #table tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-    #table td.description {
-        max-width: 300px; /* 최대 너비 설정 */
-        overflow: hidden;
-        text-overflow: ellipsis; /* 넘치는 텍스트는 '...'으로 표시 */
-        white-space: nowrap; /* 텍스트가 줄바꿈 되지 않게 함 */
-    }
-    #page {
-        margin-top: 20px;
-        text-align: center;
-    }
-    #page a {
-        display: inline-block;
-        padding: 4px 8px;
-        margin: 0 5px;
-        text-decoration: none;
-        color: black;
-        border: 1px solid black;
-        border-radius: 15px;
-    }
-    #currentPage a{
-        font-weight: bold;
-    }
-
-  
-    #selBox{
-        width : 100px;
-        height: 37px;
-        border-radius: 20px;
-        border: 1px solid #1ec800;
-        text-align: center;
-    }
-    .search-form {
-        margin: 20px 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .search-form input[type="text"] {
-        width: 400px;
-        height: 35px;
-        padding: 0 10px;
-        border-radius: 20px;
-        border: 1px solid #1ec800;
-        font-size: 14px;
-    }
-    .search-form button {
-        height: 35px;
-        margin-left: 10px;
-        padding: 0 20px;
-        border-radius: 20px;
-        border: none;
-        background-color: #1ec800;
-        color: white;
-        font-size: 14px;
-        cursor: pointer;
-    }
-    .search-form button:hover {
-        background-color: #16b600;
-    }
-</style>
-
-</head>
+<link rel="stylesheet" type="text/css" href="/sakila/css/sakila.css?after">
+k</head>
 <body>
     <h1>FILM LIST</h1>
-    
-
     <form class="search-form" action="filmList.jsp">
         <input type="text" name="searchWord" value="<%= searchWord %>" placeholder="영화 제목 검색"
         >

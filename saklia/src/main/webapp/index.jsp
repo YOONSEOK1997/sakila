@@ -1,14 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/header.jsp" %>
 <% 
-    // 로그인 되었는지 아닌지 확인
-    Integer staffId = (Integer)(session.getAttribute("loginStaff"));
-    if(staffId == null){
-        response.sendRedirect("/sakila/d0328/loginForm.jsp");
-        return;
-    }
-    if(application.getAttribute("loginStaff") == null){
-        return;
-    }
+    
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -16,39 +9,9 @@
     <meta charset="UTF-8">
     <title>SAKILA</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f7;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-        .header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: bold;
-          
-        }
-        .userinfo {
-            font-size: 14px;
-        }
-        .userinfo a {
-            color: #ecf0f1;
-            margin-left: 8px;
-            text-decoration: none;
-        }
-        .userinfo a:hover {
-            text-decoration: underline;
-        }
+       
+       
+      
         .container {
             width: 100%;
             max-width: 600px;
@@ -79,16 +42,12 @@
             background-color: #d1d8dd;
         }
     </style>
+
+<title>SAKILA</title>
+<link rel="stylesheet" type="text/css" href="/sakila/css/sakila.css?after">
 </head>
 <body>
-    <div class="header">
-        <h1>SAKILA</h1>
-        <div class="userinfo">
-            <span><%=staffId %>님 반갑습니다.</span>
-            <a href="/sakila/d0328/logout.jsp">로그아웃</a>
-            <a href="/sakila/d0328/updatePasswordForm.jsp">비밀번호 변경</a>
-        </div>
-    </div>
+
     <div class="container">
         <ol>
             <li><a href="d0325/rentalList.jsp">대여목록</a></li>

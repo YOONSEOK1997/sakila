@@ -2,10 +2,10 @@
 <%@ page import="java.sql.*"%>
 <!-- Controller -->
 <%
-	//로그인 되었는지 아닌지?
+
 	Integer staffId = (Integer)session.getAttribute("loginStaff");
 	
-	if (staffId == null) { // 로그아웃 상태라면
+	if (staffId == null) { 
 		response.sendRedirect("/sakila/loginForm.jsp");
 		return;
 	}
@@ -21,10 +21,10 @@
 	Class.forName("com.mysql.cj.jdbc.Driver");
 	conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sakila", "root", "wkqk1234");
 	
-	// active가 0이면 1로
+	
 	String sql = "UPDATE customer SET ACTIVE = 1 WHERE customer_id = ?";
 	
-	// active가 1이면 0으로
+
 	if (active == 1) {
 		sql = "UPDATE customer SET ACTIVE = 0 WHERE customer_id = ?";
 	}

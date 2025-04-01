@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*, java.sql.*" %>
-
+<%@ include file="/header.jsp" %>
 <%
     Class.forName("com.mysql.cj.jdbc.Driver");
     Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sakila", "root", "wkqk1234");
@@ -35,15 +35,9 @@
 <head>
     <meta charset="UTF-8">
     <title>필모그레피</title>
-    
+    <link rel="stylesheet" type="text/css" href="/sakila/css/sakila.css?after">
     <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f4f7;
-            color: #333;
-        }
+      
         h1 {
             color: #333;
             text-align: center;

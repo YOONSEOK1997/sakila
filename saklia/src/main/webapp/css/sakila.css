@@ -3,13 +3,43 @@
 
     body {
         margin: 0;
-        padding: 5px;
         width: 100%;
         text-align: center;
+        background-color: #f4f4f4;
     }
+	.header {
+	    background-color: #1ec800;
+	    color: white;
+	    padding: 16px 20px;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    position: relative;
+	}
+	.header h1 {
+	    margin: 0;
+	    font-size: 28px;
+	    font-weight: bold;
+	    color: white;
+	}
+	.userinfo {
+	    position: absolute;
+	    right: 20px;
+	    top: 50%;
+	    transform: translateY(-50%);
+	    font-size: 14px;
+	}
+	.userinfo a {
+	    color: white;
+	    margin-left: 8px;
+	    text-decoration: none;
+	}
+	.userinfo a:hover {
+	    text-decoration: underline;
+	}
     h1{
-        color : black;
-    }
+	color : #1ec800;
+	}
     #table {
         width: 30%;
         height: 500px;

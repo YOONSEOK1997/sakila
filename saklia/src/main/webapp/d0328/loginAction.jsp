@@ -26,7 +26,7 @@
 		System.out.println("로그인 성공");
 	
 	}else {
-		response.sendRedirect("/sakila/d0328/loginForm.jsp");	
+		response.sendRedirect("/sakila/d0328/loginForm.jsp?loginError=true");
 		System.out.println("로그인 실패");
 	}
 %>

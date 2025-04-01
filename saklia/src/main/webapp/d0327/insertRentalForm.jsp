@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import ="java.sql.*" %>
+<%@ include file="/header.jsp" %>
 <%
 	// staff 로그인 session 확인
 	
 
 	Integer inventoryId = Integer.parseInt(request.getParameter("inventoryId"));
-	Integer staffId	= (Integer)session.getAttribute("loginStaff");
+	//Integer staffId	= (Integer)session.getAttribute("loginStaff");
 	Integer customerId = null;
 	if(request.getParameter("customerId") != null) {
 		// 이름검색 후 이 페이지가 다시 요청되면 customerId값을 받아 온다
